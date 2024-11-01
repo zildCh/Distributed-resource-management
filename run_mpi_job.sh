@@ -1,8 +1,9 @@
-run_mpi_job.sh
 #!/bin/bash
 #SBATCH --job-name=mpi_job
-#SBATCH --output=mpi_job.out
-#SBATCH --error=mpi_job.err
 #SBATCH --nodes=2
-#SBATCH --ntasks=4
-mpirun -n 2 --allow-run-as-root ./hello_mpi
+#SBATCH --ntasks-per-node=2
+#SBATCH --time=00:10:00
+#SBATCH --output=mpi_output.txt
+
+orterun --allow-run-as-root -np 4 /home/mpiuser/hello_mpi
+

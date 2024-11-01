@@ -1,22 +1,15 @@
-
 #!/bin/bash
 
 # Запуск slurmctld и slurmd на главном узле
 if [ "$HOSTNAME" == "master" ]; then
-    # Запуск slurmctld в фоновом режиме и проверка на ошибки
-    sudo slurmctld -D &> /var/log/slurm/slurmctld.log &
-    echo "Запущен slurmctld"
-    sudo service munge start
+    # Запуск slurmctld
+    sudo slurmctld -D
 
     # Запуск slurmd в фоновом режиме и проверка на ошибки
-    sudo slurmd -D &> /var/log/slurm/slurmd.log &
-    echo "Запущен slurmd"
-else
-    # Запуск slurmd на рабочих узла
-    sudo slurmd -D &> /var/log/slurm/slurmd.log &
-    echo "Запущен slurmd на рабочем узле"
-    sudo service munge start
+    sudo slurmd -D
+    sudo service munge restart
 fi
-
+sudo slurmd -D
+sudo service munge restart
 # Переход в режим ожидания
 tail -f /dev/null
